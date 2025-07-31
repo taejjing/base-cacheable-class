@@ -1,4 +1,4 @@
-from .cache import CacheInterface
+from .cache import CacheInterface, SyncCacheInterface
 from .decorator import CacheDecoratorInterface
 
-__all__ = ["CacheInterface", "CacheDecoratorInterface"]
+__all__ = ["CacheInterface", "SyncCacheInterface", "CacheDecoratorInterface"]

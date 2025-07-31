@@ -1,7 +1,9 @@
 from .base import BaseCacheableClass
 from .cache.in_memory import InMemoryCache, InMemoryCacheDecorator
-from .interfaces import CacheDecoratorInterface, CacheInterface
+from .interfaces import CacheDecoratorInterface, CacheInterface, SyncCacheInterface
 from .models import CacheItem
+
+from .cache.in_memory.sync import SyncInMemoryCache, SyncInMemoryCacheDecorator
 
 __all__ = [
     "BaseCacheableClass",
@@ -10,6 +12,9 @@ __all__ = [
     "CacheItem",
     "InMemoryCache",
     "InMemoryCacheDecorator",
+    "SyncCacheInterface",
+    "SyncInMemoryCache",
+    "SyncInMemoryCacheDecorator",
 ]
 
 # Conditional export for Redis classes

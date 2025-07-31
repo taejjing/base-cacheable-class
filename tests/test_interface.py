@@ -1,8 +1,17 @@
+import asyncio
 from abc import ABC
+from unittest.mock import patch
 
 import pytest
 
-from base_cacheable_class import CacheDecoratorInterface, CacheInterface, CacheItem
+from base_cacheable_class import (
+    CacheDecoratorInterface,
+    CacheInterface,
+    CacheItem,
+    InMemoryCache,
+    InMemoryCacheDecorator,
+)
+from base_cacheable_class.cache.in_memory import key_builder, pattern_builder
 
 
 class TestCacheItem:
@@ -205,22 +214,24 @@ class TestInMemoryCacheDecorator:
     @pytest.mark.asyncio
     async def test_key_builder(self):
         """Test key builder creates correct keys"""
-        cache = InMemoryCache()
-        decorator = InMemoryCacheDecorator(cache)
 
         def test_func():
             pass
 
         # Test with different arguments
-        key1 = decorator.key_builder(test_func, "self", "arg1", "arg2")
+        key1 = key_builder(test_func, "self", "arg1", "arg2")
         assert key1 == "test_func:('self', 'arg1', 'arg2'):{}"
 
-        key2 = decorator.key_builder(test_func, "self", kwarg1="value1")
+        key2 = key_builder(test_func, "self", kwarg1="value1")
         assert key2 == "test_func:('self',):{'kwarg1': 'value1'}"
 
         # Test without self (function call)
-        key3 = decorator.key_builder(test_func, "arg1", "arg2")
+        key3 = key_builder(test_func, "arg1", "arg2")
         assert key3 == "test_func:('arg1', 'arg2'):{}"
+
+    @pytest.mark.asyncio
+    async def test_pattern_builder(self):
+        pass
 
     @pytest.mark.asyncio
     async def test_invalidate(self):
